@@ -1,10 +1,10 @@
 {
-    "name": "symfony/framework-standard-edition",
+    "name": "gbslogistics/emotes",
     "license": "MIT",
     "type": "project",
-    "description": "The \"Symfony Standard Edition\" distribution",
+    "description": "Updates emote packs for IM clients from forums.somethingawful.com",
     "autoload": {
-        "psr-4": { "": "src/" }
+        "psr-4": { "GbsLogistics\\Emotes\\": "src/" }
     },
     "require": {
         "php": ">=5.3.9",
@@ -12,11 +12,13 @@
         "doctrine/orm": "^2.4.8",
         "doctrine/doctrine-bundle": "~1.4",
         "symfony/assetic-bundle": "~2.3",
-        "symfony/swiftmailer-bundle": "~2.3",
         "symfony/monolog-bundle": "~2.4",
         "sensio/distribution-bundle": "~4.0",
         "sensio/framework-extra-bundle": "^3.0.2",
-        "incenteev/composer-parameter-handler": "~2.0"
+        "incenteev/composer-parameter-handler": "~2.0",
+
+        "fabpot/goutte": "~3.1",
+        "ext-imagick": "*"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

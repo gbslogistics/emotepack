@@ -1,8 +1,10 @@
 # Cache and logs (Symfony2)
 /app/cache/*
 /app/logs/*
+/app/data/*
 !app/cache/.gitkeep
 !app/logs/.gitkeep
+!app/data/.gitkeep
 
 # Cache and logs (Symfony3)
 /var/cache/*
