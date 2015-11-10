@@ -85,4 +85,12 @@ class Emote
     {
         $this->textCodes = $textCodes;
     }
+
+    public function getTextCodesAsArray()
+    {
+        return array_map(function (TextCode $code) {
+            return $code->getCode();
+        }, $this->getTextCodes());
+    }
+
 }

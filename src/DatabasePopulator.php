@@ -4,6 +4,8 @@ namespace GbsLogistics\Emotes;
 
 
 use Doctrine\ORM\EntityManager;
+use GbsLogistics\Emotes\Entity\Emote;
+use GbsLogistics\Emotes\Entity\TextCode;
 
 /**
  * Reads an existing Pidgin emote package and extracts the emotes within, populating metadata to the database.
@@ -15,9 +17,17 @@ class DatabasePopulator
     /** @var EntityManager */
     private $entityManager;
 
-    function __construct($entityManager)
+    /** @var DataStorage */
+    private $dataStorage;
+
+    /** @var EntityRepository */
+    private $emoteRepository;
+
+    function __construct(EntityManager $entityManager, DataStorage $dataStorage)
     {
         $this->entityManager = $entityManager;
+        $this->dataStorage = $dataStorage;
+        $this->emoteRepository = $this->entityManager->getRepository(Emote::class);
     }
 
     /**
@@ -37,15 +47,14 @@ class DatabasePopulator
         }
 
         // Seek through the theme until we find where the emotes are located.
-        $foundEmotes = false;
-        while (false !== $line = fgets($themeHandle) && false === $foundEmotes) {
+        while (false !== $line = fgets($themeHandle)) {
             $line = trim($line);
             if ('[default]' === $line) {
-                $foundEmotes = true;
+                break;
             }
         }
 
-        if (false === $foundEmotes) {
+        if (feof($themeHandle)) {
             throw new \RuntimeException(sprintf('Could not find emote information in "%s".', $themeFile));
         }
 
@@ -55,9 +64,23 @@ class DatabasePopulator
             if (preg_match('/(?:! )?(\S+)\s+(.+)/', $line, $matches)) {
                 $file = $matches[1];
                 $emoteCodes = preg_split('/\s+/', $matches[2]);
+                $sourcePath = $directoryPath . DIRECTORY_SEPARATOR . $file;
+                $destinationPath = $this->dataStorage->getImageSourcePath($file);
 
-                // TODO: Copy image to distribution source directory
-                // TODO: Persist metadata to database
+                if (null === $destinationPath) {
+                    $this->dataStorage->copyImageToSource($sourcePath);
+                    $emote = new Emote();
+                    $emote->setPath($file);
+                    $this->entityManager->persist($emote);
+                } else {
+                    $emote = $this->emoteRepository->findOneBy([ 'path' => $file ]);
+                }
+
+                $newCodes = array_diff($emoteCodes, $emote->getTextCodesAsArray());
+                foreach ($newCodes as $code) {
+                    $textCode = new TextCode($emote, $code);
+                    $this->entityManager->persist($textCode);
+                }
             }
         }
 

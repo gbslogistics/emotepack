@@ -32,9 +32,9 @@ class TextCode
      */
     private $code;
 
-    function __construct($emoteId, $code)
+    function __construct(Emote $emote, $code)
     {
-        $this->emoteId = $emoteId;
+        $this->emote = $emote;
         $this->code = $code;
     }
 
