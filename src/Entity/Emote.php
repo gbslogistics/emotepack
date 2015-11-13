@@ -86,11 +86,15 @@ class Emote
         $this->textCodes = $textCodes;
     }
 
+    /**
+     * @return \string[]
+     * @throws \Exception
+     */
     public function getTextCodesAsArray()
     {
         return array_map(function (TextCode $code) {
             return $code->getCode();
-        }, $this->getTextCodes());
+        }, $this->getTextCodes()->toArray());
     }
 
 }

@@ -9,7 +9,8 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class SAEmoteCrawler
 {
-    const EMOTES_URL = 'http://forums.somethingawful.com/misc.php?action=showsmilies';
+    const /** @noinspection SpellCheckingInspection */
+        EMOTES_URL = 'http://forums.somethingawful.com/misc.php?action=showsmilies';
 
     /** @var Client */
     private $client;
@@ -34,6 +35,7 @@ class SAEmoteCrawler
         $crawler = $this->client->request('GET', self::EMOTES_URL);
         $remoteEmotes = array();
 
+        /** @noinspection SpellCheckingInspection */
         $crawler->filter('.smilie')->each(function (Crawler $node, $i) use ($remoteEmotes) {
             $emote = $node->filter('.text')->text();
             $imageUrl = $node->filter('img')->attr('src');

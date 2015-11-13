@@ -4,6 +4,7 @@ namespace GbsLogistics\Emotes;
 
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
 use GbsLogistics\Emotes\Entity\Emote;
 use GbsLogistics\Emotes\Entity\TextCode;
 
@@ -67,19 +68,24 @@ class DatabasePopulator
                 $sourcePath = $directoryPath . DIRECTORY_SEPARATOR . $file;
                 $destinationPath = $this->dataStorage->getImageSourcePath($file);
 
-                if (null === $destinationPath) {
-                    $this->dataStorage->copyImageToSource($sourcePath);
+                $emote = $this->emoteRepository->findOneBy([ 'path' => $file ]);
+                if (null === $emote) {
                     $emote = new Emote();
                     $emote->setPath($file);
+
+                    if (null === $destinationPath) {
+                        $this->dataStorage->copyImageToSource($sourcePath);
+                    }
+
                     $this->entityManager->persist($emote);
-                } else {
-                    $emote = $this->emoteRepository->findOneBy([ 'path' => $file ]);
+                    $this->entityManager->flush($emote);
                 }
 
                 $newCodes = array_diff($emoteCodes, $emote->getTextCodesAsArray());
                 foreach ($newCodes as $code) {
                     $textCode = new TextCode($emote, $code);
                     $this->entityManager->persist($textCode);
+                    $this->entityManager->flush($textCode);
                 }
             }
         }

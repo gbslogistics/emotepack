@@ -55,19 +55,19 @@ class TextCode
     }
 
     /**
-     * @return int
+     * @return Emote
      */
-    public function getEmoteId()
+    public function getEmote()
     {
-        return $this->emoteId;
+        return $this->emote;
     }
 
     /**
-     * @param int $emoteId
+     * @param Emote $emote
      */
-    public function setEmoteId($emoteId)
+    public function setEmote($emote)
     {
-        $this->emoteId = $emoteId;
+        $this->emote = $emote;
     }
 
     /**

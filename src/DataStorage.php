@@ -20,6 +20,9 @@ class DataStorage
     function __construct($dataDirectory)
     {
         $this->dataDirectory = $dataDirectory;
+        if (!$dataDirectory) {
+            throw new \InvalidArgumentException('Argument to DataStorage::__construct cannot be empty.');
+        }
     }
 
     public function copyImageToSource($imagePath)
@@ -46,7 +49,8 @@ class DataStorage
      */
     private function copyImage($imagePath, $targetNamespace)
     {
-        $destinationDirectory = realpath($this->dataDirectory . DIRECTORY_SEPARATOR . $targetNamespace);
+        $destinationDirectory = $this->dataDirectory . DIRECTORY_SEPARATOR . $targetNamespace;
+
         if (!is_writable($this->dataDirectory)) {
             throw new \RuntimeException(sprintf('Could not write to directory %s.', $this->dataDirectory));
         }
