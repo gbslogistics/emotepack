@@ -65,16 +65,3 @@ doctrine:
         auto_generate_proxy_classes: "%kernel.debug%"
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
-
-services:
-    gbslogistics.emotes.emote_client:
-        class: GbsLogistics\Emotes\SAEmoteCrawler
-    gbslogistics.emotes.data_storage:
-        class: GbsLogistics\Emotes\DataStorage
-        arguments:
-            - "%kernel.root_dir%/data"
-    gbslogistics.emotes.database_populator:
-        class: GbsLogistics\Emotes\DatabasePopulator
-        arguments:
-            - "@doctrine.orm.entity_manager"
-            - "@gbslogistics.emotes.data_storage"

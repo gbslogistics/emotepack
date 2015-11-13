@@ -4,6 +4,14 @@ parameters:
 #    parameter_name: value
 
 services:
-#    service_name:
-#        class: AppBundle\Directory\ClassName
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    gbslogistics.emotes.emote_bundle.emote_client:
+        class: GbsLogistics\Emotes\EmoteBundle\SAEmoteCrawler
+    gbslogistics.emotes.emote_bundle.data_storage:
+        class: GbsLogistics\Emotes\EmoteBundle\DataStorage
+        arguments:
+            - "%kernel.root_dir%/data"
+    gbslogistics.emotes.emote_bundle.database_populator:
+        class: GbsLogistics\Emotes\EmoteBundle\DatabasePopulator
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@gbslogistics.emotes.emote_bundle.data_storage"

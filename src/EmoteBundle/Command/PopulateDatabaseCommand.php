@@ -1,7 +1,7 @@
 <?php
-namespace GbsLogistics\Emotes\Command;
+namespace GbsLogistics\Emotes\EmoteBundle\Command;
 
-use GbsLogistics\Emotes\DatabasePopulator;
+use GbsLogistics\Emotes\EmoteBundle\DatabasePopulator;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

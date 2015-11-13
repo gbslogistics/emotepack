@@ -1,6 +1,6 @@
 <?php
 
-namespace GbsLogistics\Emotes;
+namespace GbsLogistics\Emotes\EmoteBundle;
 
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;

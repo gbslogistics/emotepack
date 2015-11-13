@@ -1,9 +1,9 @@
 <?php
 
-namespace GbsLogistics\Emotes;
+namespace GbsLogistics\Emotes\EmoteBundle;
 
 
-use GbsLogistics\Emotes\Model\RemoteEmote;
+use GbsLogistics\Emotes\EmoteBundle\Model\RemoteEmote;
 use Goutte\Client;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -36,7 +36,7 @@ class SAEmoteCrawler
         $remoteEmotes = array();
 
         /** @noinspection SpellCheckingInspection */
-        $crawler->filter('.smilie')->each(function (Crawler $node, $i) use ($remoteEmotes) {
+        $crawler->filter('.smilie')->each(function (Crawler $node, $i) use (&$remoteEmotes) {
             $emote = $node->filter('.text')->text();
             $imageUrl = $node->filter('img')->attr('src');
 

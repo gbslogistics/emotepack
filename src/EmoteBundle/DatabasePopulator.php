@@ -1,12 +1,12 @@
 <?php
 
-namespace GbsLogistics\Emotes;
+namespace GbsLogistics\Emotes\EmoteBundle;
 
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use GbsLogistics\Emotes\Entity\Emote;
-use GbsLogistics\Emotes\Entity\TextCode;
+use GbsLogistics\Emotes\EmoteBundle\Entity\Emote;
+use GbsLogistics\Emotes\EmoteBundle\Entity\TextCode;
 
 /**
  * Reads an existing Pidgin emote package and extracts the emotes within, populating metadata to the database.

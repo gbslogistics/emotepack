@@ -1,6 +1,6 @@
 <?php
 
-namespace GbsLogistics\Emotes\Entity;
+namespace GbsLogistics\Emotes\EmoteBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
