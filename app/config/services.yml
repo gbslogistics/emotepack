@@ -6,12 +6,35 @@ parameters:
 services:
     gbslogistics.emotes.emote_bundle.emote_client:
         class: GbsLogistics\Emotes\EmoteBundle\SAEmoteCrawler
+
     gbslogistics.emotes.emote_bundle.data_storage:
         class: GbsLogistics\Emotes\EmoteBundle\DataStorage
         arguments:
             - "%kernel.root_dir%/data"
+
     gbslogistics.emotes.emote_bundle.database_populator:
         class: GbsLogistics\Emotes\EmoteBundle\DatabasePopulator
         arguments:
             - "@doctrine.orm.entity_manager"
             - "@gbslogistics.emotes.emote_bundle.data_storage"
+
+    gbslogistics.emotes.emote_bundle.distribution_compiler:
+        class: GbsLogistics\Emotes\EmoteBundle\DistributionCompiler
+        arguments:
+            - "@=service('doctrine.orm.default_entity_manager').getRepository('GbsLogistics\Emotes\EmoteBundle\Entity\Emote')"
+
+    # Distributions
+    gbslogistics.emotes.emote_bundle.distribution.pidgin:
+        class: GbsLogistics\Emotes\EmoteBundle\Distribution\PidginDistribution
+        arguments:
+            - "@gbslogistics.emotes.emote_bundle.data_storage"
+        tags:
+            - { name: gbslogistics.emote_distribution, namespace: sagf_emote_pack }
+
+    gbslogistics.emotes.emote_bundle.distribution.pidgin_nosmile:
+        class: GbsLogistics\Emotes\EmoteBundle\Distribution\PidginNoSmileDistribution
+        arguments:
+            - "@gbslogistics.emotes.emote_bundle.data_storage"
+        tags:
+            - { name: gbslogistics.emote_distribution, namespace: sagf_emote_pack_nosmile }
+
