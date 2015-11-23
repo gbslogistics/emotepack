@@ -40,6 +40,12 @@ class DataStorage
         return $this->getImagePath($imageFilename, self::SOURCE_DIRECTORY);
     }
 
+    public function getSourceDirectory()
+    {
+        return $this->dataDirectory . DIRECTORY_SEPARATOR . self::SOURCE_DIRECTORY;
+    }
+
+
     /**
      * @param $imagePath string Path to the target image to copy.
      * @param $targetNamespace string The namespace for this image.

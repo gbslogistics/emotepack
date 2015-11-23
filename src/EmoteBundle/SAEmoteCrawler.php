@@ -15,15 +15,22 @@ class SAEmoteCrawler
     /** @var Client */
     private $client;
 
-    function __construct($client = null)
-    {
-        if (null === $client) {
-            $client = new Client();
-        }
+    /** @var array */
+    private $blacklist;
 
-        $this->client = $client;
+    function __construct($blacklist = [])
+    {
+        $this->blacklist = $blacklist;
+        $this->client = new Client();
     }
 
+    /**
+     * @param Client $client
+     */
+    public function setClient(Client $client)
+    {
+        $this->client = $client;
+    }
 
     /**
      * Crawls the SA emote page, pulling all the emotes.
@@ -40,7 +47,9 @@ class SAEmoteCrawler
             $emote = $node->filter('.text')->text();
             $imageUrl = $node->filter('img')->attr('src');
 
-            // TODO: Blacklist
+            if (in_array($emote, $this->blacklist)) {
+                return;
+            }
 
             if ($emote && $imageUrl) {
                 $remoteEmotes[] = new RemoteEmote($emote, $imageUrl);
