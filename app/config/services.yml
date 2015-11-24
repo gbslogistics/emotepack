@@ -38,3 +38,17 @@ services:
         tags:
             - { name: gbslogistics.emote_distribution, namespace: sagf_emote_pack_nosmile }
 
+    # Disposals
+    gbslogistics.emotes.emote_bundle.artifact_disposal.noop:
+        class: GbsLogistics\Emotes\EmoteBundle\ArtifactDisposal\NoopArtifactDisposal
+        public: false
+
+    gbslogistics.emotes.emote_bundle.artifact_disposal.unlink:
+        class: GbsLogistics\Emotes\EmoteBundle\ArtifactDisposal\UnlinkArtifactDisposal
+        public: false
+
+    # Publishers
+    gbslogistics.emotes.emote_bundle.publisher.noop:
+        class: GbsLogistics\Emotes\EmoteBundle\Publisher\NoopPublisher
+        public: false
+

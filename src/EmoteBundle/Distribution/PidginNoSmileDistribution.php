@@ -5,7 +5,7 @@ namespace GbsLogistics\Emotes\EmoteBundle\Distribution;
 
 use GbsLogistics\Emotes\EmoteBundle\Entity\Emote;
 
-class PidginNoSmileDistribution extends PidginDistribution
+class PidginNoSmileDistribution extends PidginAbstractDistribution
 {
     protected function generateEmoteEntry(Emote $emote)
     {

@@ -9,13 +9,10 @@ use GbsLogistics\Emotes\EmoteBundle\Entity\TextCode;
 use GbsLogistics\Emotes\EmoteBundle\Model\DistributionArtifact;
 use GbsLogistics\Emotes\EmoteBundle\Model\PidginThemeHeader;
 
-class PidginDistribution implements DistributionInterface
+class PidginDistribution extends AbstractDistribution
 {
     /** @var DataStorage */
     private $dataStorage;
-
-    /** @var string` */
-    protected $namespace;
 
     function __construct(DataStorage $dataStorage)
     {
@@ -47,22 +44,6 @@ class PidginDistribution implements DistributionInterface
             'emot-smug.gif',
             'Querns'
         );
-    }
-
-    /**
-     * @return string
-     */
-    public function getNamespace()
-    {
-        return $this->namespace;
-    }
-
-    /**
-     * @param string $namespace
-     */
-    public function setNamespace($namespace)
-    {
-        $this->namespace = $namespace;
     }
 
     /**
@@ -111,7 +92,8 @@ EOTXT
         $zip->close();
 
         $artifact = new DistributionArtifact();
-        // TODO: Populate artifact
+        $artifact->setNamespace($this->getNamespace());
+        $artifact->setPath($outputFilename);
         return $artifact;
     }
 }

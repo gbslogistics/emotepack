@@ -5,8 +5,13 @@ namespace GbsLogistics\Emotes\EmoteBundle\Distribution;
 
 use GbsLogistics\Emotes\EmoteBundle\Model\DistributionArtifact;
 
-interface DistributionInterface
+abstract class AbstractDistribution
 {
+    /**
+     * @var string
+     */
+    protected $namespace;
+
     /**
      * Creates the distribution artifact.
      *
@@ -14,10 +19,21 @@ interface DistributionInterface
      *     of type GbsLogistics\Emotes\EmoteBundle\Entity\Emote .
      * @return DistributionArtifact
      */
-    public function generateArtifact(\Generator $emoteGenerator);
+    abstract public function generateArtifact(\Generator $emoteGenerator);
+
+    /**
+     * @return string
+     */
+    public function getNamespace()
+    {
+        return $this->namespace;
+    }
 
     /**
      * @param string $namespace
      */
-    public function setNamespace($namespace);
+    public function setNamespace($namespace)
+    {
+        $this->namespace = $namespace;
+    }
 }

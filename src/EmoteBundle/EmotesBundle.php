@@ -15,5 +15,4 @@ class EmotesBundle extends Bundle
 
         $container->addCompilerPass(new EmoteCompilerPass());
     }
-
 }
