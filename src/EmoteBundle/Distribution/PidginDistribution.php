@@ -85,7 +85,7 @@ EOTXT
         /** @var Emote $emote */
         foreach ($emoteGenerator as $emote) {
             $themeFile .= $this->generateEmoteEntry($emote);
-            $zip->addFile($zipDir . '/' . $emote->getPath(), $this->dataStorage->getImageSourcePath($emote->getPath()));
+            $zip->addFile($this->dataStorage->getImageSourcePath($emote->getPath()), $zipDir . '/' . $emote->getPath());
         }
 
         $zip->addFromString($zipDir . '/theme', $themeFile);

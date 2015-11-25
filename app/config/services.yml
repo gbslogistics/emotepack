@@ -21,7 +21,14 @@ services:
     gbslogistics.emotes.emote_bundle.distribution_compiler:
         class: GbsLogistics\Emotes\EmoteBundle\DistributionCompiler
         arguments:
-            - "@=service('doctrine.orm.default_entity_manager').getRepository('GbsLogistics\Emotes\EmoteBundle\Entity\Emote')"
+            - "@gbslogistics.emotes.emote_bundle.entity.emote_repository"
+
+    # Repositories
+    gbslogistics.emotes.emote_bundle.entity.emote_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory: [ "@doctrine.orm.default_entity_manager", getRepository ]
+        arguments:
+            - "GbsLogistics\\Emotes\\EmoteBundle\\Entity\\Emote"
 
     # Distributions
     gbslogistics.emotes.emote_bundle.distribution.pidgin:
@@ -52,3 +59,8 @@ services:
         class: GbsLogistics\Emotes\EmoteBundle\Publisher\NoopPublisher
         public: false
 
+    gbslogistics.emotes.emote_bundle.publisher.filesystem:
+        class: GbsLogistics\Emotes\EmoteBundle\Publisher\FilesystemPublisher
+        arguments:
+            - "@gbslogistics.emotes.emote_bundle.data_storage"
+        public: false

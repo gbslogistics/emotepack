@@ -45,6 +45,20 @@ class DataStorage
         return $this->dataDirectory . DIRECTORY_SEPARATOR . self::SOURCE_DIRECTORY;
     }
 
+    /**
+     * @param string $namespace
+     * @return string
+     */
+    public function getDistDirectory($namespace)
+    {
+        $distDirectory = $this->dataDirectory . DIRECTORY_SEPARATOR . self::DIST_DIRECTORY . DIRECTORY_SEPARATOR . $namespace;
+        if (!is_dir($distDirectory)) {
+            mkdir($distDirectory, 0755, true);
+        }
+
+        return $distDirectory;
+    }
+
 
     /**
      * @param $imagePath string Path to the target image to copy.
