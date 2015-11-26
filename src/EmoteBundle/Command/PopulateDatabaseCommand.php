@@ -20,7 +20,7 @@ class PopulateDatabaseCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         /** @var DatabasePopulator $populator */
-        $populator = $this->getContainer()->get('gbslogistics.emotes.database_populator');
+        $populator = $this->getContainer()->get('gbslogistics.emotes.emote_bundle.database_populator');
         $populator->populateDatabase($input->getArgument('path'));
     }
 }

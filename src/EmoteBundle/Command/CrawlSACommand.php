@@ -5,6 +5,7 @@ namespace GbsLogistics\Emotes\EmoteBundle\Command;
 
 use Doctrine\ORM\EntityRepository;
 use GbsLogistics\Emotes\EmoteBundle\Entity\Emote;
+use GbsLogistics\Emotes\EmoteBundle\Entity\History;
 use GbsLogistics\Emotes\EmoteBundle\Entity\TextCode;
 use GbsLogistics\Emotes\EmoteBundle\Model\RemoteEmote;
 use GbsLogistics\Emotes\EmoteBundle\SAEmoteCrawler;
@@ -52,6 +53,7 @@ class CrawlSACommand extends ContainerAwareCommand
             $dataStorage = $this->getContainer()->get('gbslogistics.emotes.emote_bundle.data_storage');
             $entityManager = $this->getContainer()->get('doctrine.orm.entity_manager');
             $targetDirectory = $dataStorage->getSourceDirectory();
+            $history = new History();
 
             foreach ($newCodes as $key) {
                 $remoteEmote = $saEmoteDictionary[$key];
@@ -70,13 +72,17 @@ class CrawlSACommand extends ContainerAwareCommand
                 $textCode = new TextCode($emote, $remoteEmote->getName());
                 $emote->setPath($filename);
 
+                $history->addEmote($emote);
+
                 $entityManager->persist($emote);
                 $entityManager->persist($textCode);
             }
 
+            $entityManager->persist($history);
             $entityManager->flush();
 
-            // TODO: Rebuild all distributions
+            $this->getContainer()->get('gbslogistics.emotes.emote_bundle.distribution_compiler')->compile();
+
             // TODO: Rebuild front page
         }
     }
