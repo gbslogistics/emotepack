@@ -5,14 +5,15 @@ namespace GbsLogistics\Emotes\EmoteBundle;
 
 use Doctrine\ORM\EntityRepository;
 use GbsLogistics\Emotes\EmoteBundle\ArtifactDisposal\ArtifactDisposalInterface;
-use GbsLogistics\Emotes\EmoteBundle\Distribution\AbstractDistribution;
+use GbsLogistics\Emotes\EmoteBundle\Distribution\AbstractRelease;
 use GbsLogistics\Emotes\EmoteBundle\Entity\Emote;
+use GbsLogistics\Emotes\EmoteBundle\Model\ReleaseArtifact;
 use GbsLogistics\Emotes\EmoteBundle\Publisher\PublisherInterface;
 
-class DistributionCompiler
+class ReleaseCompiler
 {
-    /** @var AbstractDistribution[] */
-    private $distributions;
+    /** @var AbstractRelease[] */
+    private $releases;
 
     /** @var EntityRepository */
     private $entityRepository;
@@ -25,16 +26,19 @@ class DistributionCompiler
 
     function __construct(EntityRepository $entityRepository)
     {
-        $this->distributions = [];
+        $this->releases = [];
         $this->entityRepository = $entityRepository;
     }
 
-    public function addDistribution(AbstractDistribution $distribution, $namespace)
+    public function addRelease(AbstractRelease $release, $namespace)
     {
-        $distribution->setNamespace($namespace);
-        $this->distributions[] = $distribution;
+        $release->setNamespace($namespace);
+        $this->releases[] = $release;
     }
 
+    /**
+     * @return ReleaseArtifact[]
+     */
     public function compile()
     {
         if (null === $this->publisher) {
@@ -45,12 +49,17 @@ class DistributionCompiler
             throw new \RuntimeException('A valid disposal object was not injected.');
         }
 
+        $artifacts = [];
+
         $entityRepository = $this->entityRepository;
-        foreach ($this->distributions as $distribution) {
-            $artifact = $distribution->generateArtifact($this->getEmoteGenerator());
+        foreach ($this->releases as $release) {
+            $artifact = $release->generateArtifact($this->getEmoteGenerator());
             $this->publisher->publish($artifact);
             $this->disposal->dispose($artifact);
+            $artifacts[] = $artifact;
         }
+
+        return $artifacts;
     }
 
     /**

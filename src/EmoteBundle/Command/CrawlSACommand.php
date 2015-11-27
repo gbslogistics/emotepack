@@ -81,7 +81,7 @@ class CrawlSACommand extends ContainerAwareCommand
             $entityManager->persist($history);
             $entityManager->flush();
 
-            $this->getContainer()->get('gbslogistics.emotes.emote_bundle.distribution_compiler')->compile();
+            $releaseArtifacts = $this->getContainer()->get('gbslogistics.emotes.emote_bundle.release_compiler')->compile();
 
             // TODO: Rebuild front page
         }

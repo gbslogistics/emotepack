@@ -24,7 +24,7 @@ class EmoteCompilerPass implements CompilerPassInterface
         }
 
         $distributionCompilerDefinition = $container->getDefinition('gbslogistics.emotes.emote_bundle.distribution_compiler');
-        $taggedServices = $container->findTaggedServiceIds('gbslogistics.emote_distribution');
+        $taggedServices = $container->findTaggedServiceIds('gbslogistics.emote_release');
 
         foreach ($taggedServices as $id => $tags) {
             foreach ($tags as $attributes) {

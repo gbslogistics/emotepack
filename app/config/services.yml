@@ -18,8 +18,8 @@ services:
             - "@doctrine.orm.entity_manager"
             - "@gbslogistics.emotes.emote_bundle.data_storage"
 
-    gbslogistics.emotes.emote_bundle.distribution_compiler:
-        class: GbsLogistics\Emotes\EmoteBundle\DistributionCompiler
+    gbslogistics.emotes.emote_bundle.release_compiler:
+        class: GbsLogistics\Emotes\EmoteBundle\ReleaseCompiler
         arguments:
             - "@gbslogistics.emotes.emote_bundle.entity.emote_repository"
 
@@ -31,19 +31,19 @@ services:
             - "GbsLogistics\\Emotes\\EmoteBundle\\Entity\\Emote"
 
     # Distributions
-    gbslogistics.emotes.emote_bundle.distribution.pidgin:
-        class: GbsLogistics\Emotes\EmoteBundle\Distribution\PidginDistribution
+    gbslogistics.emotes.emote_bundle.release.pidgin:
+        class: GbsLogistics\Emotes\EmoteBundle\Distribution\PidginRelease
         arguments:
             - "@gbslogistics.emotes.emote_bundle.data_storage"
         tags:
-            - { name: gbslogistics.emote_distribution, namespace: sagf_emote_pack }
+            - { name: gbslogistics.emote_release, namespace: sagf_emote_pack }
 
-    gbslogistics.emotes.emote_bundle.distribution.pidgin_nosmile:
-        class: GbsLogistics\Emotes\EmoteBundle\Distribution\PidginNoSmileDistribution
+    gbslogistics.emotes.emote_bundle.release.pidgin_nosmile:
+        class: GbsLogistics\Emotes\EmoteBundle\Distribution\PidginNoSmileRelease
         arguments:
             - "@gbslogistics.emotes.emote_bundle.data_storage"
         tags:
-            - { name: gbslogistics.emote_distribution, namespace: sagf_emote_pack_nosmile }
+            - { name: gbslogistics.emote_release, namespace: sagf_emote_pack_nosmile }
 
     # Disposals
     gbslogistics.emotes.emote_bundle.artifact_disposal.noop:

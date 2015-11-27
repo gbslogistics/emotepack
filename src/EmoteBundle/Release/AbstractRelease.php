@@ -3,9 +3,9 @@
 namespace GbsLogistics\Emotes\EmoteBundle\Distribution;
 
 
-use GbsLogistics\Emotes\EmoteBundle\Model\DistributionArtifact;
+use GbsLogistics\Emotes\EmoteBundle\Model\ReleaseArtifact;
 
-abstract class AbstractDistribution
+abstract class AbstractRelease
 {
     /**
      * @var string
@@ -17,7 +17,7 @@ abstract class AbstractDistribution
      *
      * @param \Generator $emoteGenerator Contains a generator which will yield objects
      *     of type GbsLogistics\Emotes\EmoteBundle\Entity\Emote .
-     * @return DistributionArtifact
+     * @return ReleaseArtifact
      */
     abstract public function generateArtifact(\Generator $emoteGenerator);
 

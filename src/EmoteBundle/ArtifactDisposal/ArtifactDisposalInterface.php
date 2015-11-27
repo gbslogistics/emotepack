@@ -3,15 +3,15 @@
 namespace GbsLogistics\Emotes\EmoteBundle\ArtifactDisposal;
 
 
-use GbsLogistics\Emotes\EmoteBundle\Model\DistributionArtifact;
+use GbsLogistics\Emotes\EmoteBundle\Model\ReleaseArtifact;
 
 interface ArtifactDisposalInterface
 {
     /**
      * Disposes of a distribution artifact.
      *
-     * @param DistributionArtifact $artifact
+     * @param ReleaseArtifact $artifact
      * @return void
      */
-    public function dispose(DistributionArtifact $artifact);
+    public function dispose(ReleaseArtifact $artifact);
 }

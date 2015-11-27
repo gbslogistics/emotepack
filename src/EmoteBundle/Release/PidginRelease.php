@@ -6,10 +6,10 @@ namespace GbsLogistics\Emotes\EmoteBundle\Distribution;
 use GbsLogistics\Emotes\EmoteBundle\DataStorage;
 use GbsLogistics\Emotes\EmoteBundle\Entity\Emote;
 use GbsLogistics\Emotes\EmoteBundle\Entity\TextCode;
-use GbsLogistics\Emotes\EmoteBundle\Model\DistributionArtifact;
+use GbsLogistics\Emotes\EmoteBundle\Model\ReleaseArtifact;
 use GbsLogistics\Emotes\EmoteBundle\Model\PidginThemeHeader;
 
-class PidginDistribution extends AbstractDistribution
+class PidginRelease extends AbstractRelease
 {
     /** @var DataStorage */
     private $dataStorage;
@@ -47,11 +47,19 @@ class PidginDistribution extends AbstractDistribution
     }
 
     /**
+     * @return string
+     */
+    protected function getName()
+    {
+        return 'Pidgin';
+    }
+
+    /**
      * Creates the distribution artifact.
      *
      * @param \Generator $emoteGenerator Contains a generator which will yield objects
      *     of type GbsLogistics\Emotes\EmoteBundle\Entity\Emote .
-     * @return DistributionArtifact
+     * @return ReleaseArtifact
      */
     public function generateArtifact(\Generator $emoteGenerator)
     {
@@ -91,9 +99,10 @@ EOTXT
         $zip->addFromString($zipDir . '/theme', $themeFile);
         $zip->close();
 
-        $artifact = new DistributionArtifact();
+        $artifact = new ReleaseArtifact();
         $artifact->setNamespace($this->getNamespace());
         $artifact->setPath($outputFilename);
+        $artifact->setName($this->getName());
         return $artifact;
     }
 }

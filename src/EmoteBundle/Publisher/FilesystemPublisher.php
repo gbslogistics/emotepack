@@ -4,7 +4,7 @@ namespace GbsLogistics\Emotes\EmoteBundle\Publisher;
 
 
 use GbsLogistics\Emotes\EmoteBundle\DataStorage;
-use GbsLogistics\Emotes\EmoteBundle\Model\DistributionArtifact;
+use GbsLogistics\Emotes\EmoteBundle\Model\ReleaseArtifact;
 
 class FilesystemPublisher implements PublisherInterface
 {
@@ -18,7 +18,7 @@ class FilesystemPublisher implements PublisherInterface
         $this->dataStorage = $dataStorage;
     }
 
-    public function publish(DistributionArtifact $artifact)
+    public function publish(ReleaseArtifact $artifact)
     {
         copy($artifact->getPath(), $this->dataStorage->getDistDirectory($artifact->getNamespace()) . DIRECTORY_SEPARATOR . date('YmdHis') . '.zip');
     }

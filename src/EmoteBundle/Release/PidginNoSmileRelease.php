@@ -5,7 +5,7 @@ namespace GbsLogistics\Emotes\EmoteBundle\Distribution;
 
 use GbsLogistics\Emotes\EmoteBundle\Entity\Emote;
 
-class PidginNoSmileDistribution extends PidginDistribution
+class PidginNoSmileRelease extends PidginRelease
 {
     protected function generateEmoteEntry(Emote $emote)
     {
@@ -19,5 +19,10 @@ class PidginNoSmileDistribution extends PidginDistribution
         $header->setIcon('smugjones.001.gif');
 
         return $header;
+    }
+
+    protected function getName()
+    {
+        return 'Pidgin, No Smile Menu';
     }
 }

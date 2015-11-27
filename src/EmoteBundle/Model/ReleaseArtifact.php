@@ -3,13 +3,16 @@
 namespace GbsLogistics\Emotes\EmoteBundle\Model;
 
 
-class DistributionArtifact
+class ReleaseArtifact
 {
     /** @var string */
     private $path;
 
     /** @var string */
     private $namespace;
+
+    /** @var string */
+    private $name;
 
     /**
      * @return string
@@ -42,4 +45,21 @@ class DistributionArtifact
     {
         $this->namespace = $namespace;
     }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
 }

@@ -3,9 +3,9 @@
 namespace GbsLogistics\Emotes\EmoteBundle\Publisher;
 
 
-use GbsLogistics\Emotes\EmoteBundle\Model\DistributionArtifact;
+use GbsLogistics\Emotes\EmoteBundle\Model\ReleaseArtifact;
 
 interface PublisherInterface
 {
-    public function publish(DistributionArtifact $artifact);
+    public function publish(ReleaseArtifact $artifact);
 }
