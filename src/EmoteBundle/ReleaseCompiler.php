@@ -5,9 +5,9 @@ namespace GbsLogistics\Emotes\EmoteBundle;
 
 use Doctrine\ORM\EntityRepository;
 use GbsLogistics\Emotes\EmoteBundle\ArtifactDisposal\ArtifactDisposalInterface;
-use GbsLogistics\Emotes\EmoteBundle\Distribution\AbstractRelease;
+use GbsLogistics\Emotes\EmoteBundle\Release\AbstractRelease;
 use GbsLogistics\Emotes\EmoteBundle\Entity\Emote;
-use GbsLogistics\Emotes\EmoteBundle\Model\ReleaseArtifact;
+use GbsLogistics\Emotes\EmoteBundle\Model\PublishedRelease;
 use GbsLogistics\Emotes\EmoteBundle\Publisher\PublisherInterface;
 
 class ReleaseCompiler
@@ -37,7 +37,7 @@ class ReleaseCompiler
     }
 
     /**
-     * @return ReleaseArtifact[]
+     * @return PublishedRelease[]
      */
     public function compile()
     {
@@ -49,17 +49,17 @@ class ReleaseCompiler
             throw new \RuntimeException('A valid disposal object was not injected.');
         }
 
-        $artifacts = [];
+        $publishedReleases = [];
 
         $entityRepository = $this->entityRepository;
         foreach ($this->releases as $release) {
             $artifact = $release->generateArtifact($this->getEmoteGenerator());
-            $this->publisher->publish($artifact);
+            $publishedRelease = $this->publisher->publish($artifact);
             $this->disposal->dispose($artifact);
-            $artifacts[] = $artifact;
+            $publishedReleases[] = $publishedRelease;
         }
 
-        return $artifacts;
+        return $publishedReleases;
     }
 
     /**

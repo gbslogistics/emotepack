@@ -7,18 +7,18 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class GenerateDistributionsCommand extends ContainerAwareCommand
+class BuildWebsiteCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
-        $this->setName('emotes:generate_distribution')
+        $this->setName('emotes:build_website')
             ->setDescription('Creates new distributions from emote data');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $distributionCompiler = $this->getContainer()->get('gbslogistics.emotes.emote_bundle.distribution_compiler');
-        $distributionCompiler->compile();
+        $publishedReleases = $this->getContainer()->get('gbslogistics.emotes.emote_bundle.release_compiler')->compile();
+        $this->getContainer()->get('gbslogistics.emotes.emote_bundle.website_assembler')->assemble($publishedReleases);
     }
 
 }

@@ -1,11 +1,14 @@
 # Learn more about services, parameters and containers at
 # http://symfony.com/doc/current/book/service_container.html
 parameters:
-#    parameter_name: value
+    blacklist:
+        - ":kheldragar:"
 
 services:
     gbslogistics.emotes.emote_bundle.emote_client:
         class: GbsLogistics\Emotes\EmoteBundle\SAEmoteCrawler
+        arguments:
+            - "%blacklist%"
 
     gbslogistics.emotes.emote_bundle.data_storage:
         class: GbsLogistics\Emotes\EmoteBundle\DataStorage
@@ -23,6 +26,18 @@ services:
         arguments:
             - "@gbslogistics.emotes.emote_bundle.entity.emote_repository"
 
+    gbslogistics.emotes.emote_bundle.twig.emote_extension:
+        class: GbsLogistics\Emotes\EmoteBundle\Twig\EmoteExtension
+        public: false
+        tags:
+            - { name: twig.extension }
+
+    gbslogistics.emotes.emote_bundle.website_assembler:
+        class: GbsLogistics\Emotes\EmoteBundle\WebsiteAssembler
+        arguments:
+            - "@gbslogistics.emotes.emote_bundle.entity.history_repository"
+            - "@templating"
+
     # Repositories
     gbslogistics.emotes.emote_bundle.entity.emote_repository:
         class: Doctrine\ORM\EntityRepository
@@ -30,16 +45,22 @@ services:
         arguments:
             - "GbsLogistics\\Emotes\\EmoteBundle\\Entity\\Emote"
 
-    # Distributions
+    gbslogistics.emotes.emote_bundle.entity.history_repository:
+        class: GbsLogistics\Emotes\EmoteBundle\Entity\HistoryRepository
+        factory: [ "@doctrine.orm.default_entity_manager", getRepository ]
+        arguments:
+            - "GbsLogistics\\Emotes\\EmoteBundle\\Entity\\History"
+
+    # Releases
     gbslogistics.emotes.emote_bundle.release.pidgin:
-        class: GbsLogistics\Emotes\EmoteBundle\Distribution\PidginRelease
+        class: GbsLogistics\Emotes\EmoteBundle\Release\PidginRelease
         arguments:
             - "@gbslogistics.emotes.emote_bundle.data_storage"
         tags:
             - { name: gbslogistics.emote_release, namespace: sagf_emote_pack }
 
     gbslogistics.emotes.emote_bundle.release.pidgin_nosmile:
-        class: GbsLogistics\Emotes\EmoteBundle\Distribution\PidginNoSmileRelease
+        class: GbsLogistics\Emotes\EmoteBundle\Release\PidginNoSmileRelease
         arguments:
             - "@gbslogistics.emotes.emote_bundle.data_storage"
         tags:

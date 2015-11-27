@@ -9,4 +9,4 @@ parameters:
     secret:            ThisTokenIsNotSoSecretChangeIt
 
     gbslogistics.emotes.disposal_service: gbslogistics.emotes.emote_bundle.artifact_disposal.unlink
-    gbslogistics.emotes.publisher: gbslogistics.emotes.emote_bundle.publisher.noop
+    gbslogistics.emotes.publisher_service: gbslogistics.emotes.emote_bundle.publisher.noop

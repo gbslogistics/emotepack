@@ -1,6 +1,6 @@
 <?php
 
-namespace GbsLogistics\Emotes\EmoteBundle\Distribution;
+namespace GbsLogistics\Emotes\EmoteBundle\Release;
 
 
 use GbsLogistics\Emotes\EmoteBundle\Entity\Emote;

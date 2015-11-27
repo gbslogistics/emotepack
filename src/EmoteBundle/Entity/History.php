@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="GbsLogistics\Emotes\EmoteBundle\Entity\HistoryRepository")
  * @ORM\Table(name="history")
  * Class History
  * @package GbsLogistics\Emotes\EmoteBundle\Entity
@@ -63,5 +63,21 @@ class History
     public function addEmote(Emote $emote)
     {
         $this->emotes->add($emote);
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDateCreated()
+    {
+        return $this->dateCreated;
+    }
+
+    /**
+     * @param \DateTime $dateCreated
+     */
+    public function setDateCreated($dateCreated)
+    {
+        $this->dateCreated = $dateCreated;
     }
 }

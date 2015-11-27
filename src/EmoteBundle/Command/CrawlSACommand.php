@@ -10,6 +10,7 @@ use GbsLogistics\Emotes\EmoteBundle\Entity\TextCode;
 use GbsLogistics\Emotes\EmoteBundle\Model\RemoteEmote;
 use GbsLogistics\Emotes\EmoteBundle\SAEmoteCrawler;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -18,7 +19,15 @@ class CrawlSACommand extends ContainerAwareCommand
     protected function configure()
     {
         $this->setName('emotes:crawl_sa')
-            ->setDescription('Crawls forums.somethingawful.com for new emotes');
+            ->setDescription('Crawls forums.somethingawful.com for new emotes')
+            ->setHelp(<<<EOTXT
+This command loads the emotes page on forums.somethingawful.com, scrapes the
+emotes from the page, and saves any emotes the database doesn't already know
+about.
+
+Returns zero if there are new emotes added, non-zero if nothing has changed.
+EOTXT
+);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -49,6 +58,7 @@ class CrawlSACommand extends ContainerAwareCommand
         $newCodes = array_diff(array_keys($saEmoteDictionary), $existingEmotes);
         $logger(sprintf('Found %s new code(s): %s', count($newCodes), join(', ', $newCodes)));
 
+        $returnCode = 1;
         if (count($newCodes) > 0) {
             $dataStorage = $this->getContainer()->get('gbslogistics.emotes.emote_bundle.data_storage');
             $entityManager = $this->getContainer()->get('doctrine.orm.entity_manager');
@@ -81,10 +91,10 @@ class CrawlSACommand extends ContainerAwareCommand
             $entityManager->persist($history);
             $entityManager->flush();
 
-            $releaseArtifacts = $this->getContainer()->get('gbslogistics.emotes.emote_bundle.release_compiler')->compile();
-
-            // TODO: Rebuild front page
+            $returnCode = 0;
         }
+
+        return $returnCode;
     }
 
     private function getLoggerCallback(OutputInterface $output)

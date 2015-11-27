@@ -19,16 +19,16 @@ class EmoteCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('gbslogistics.emotes.emote_bundle.distribution_compiler')) {
+        if (!$container->hasDefinition('gbslogistics.emotes.emote_bundle.release_compiler')) {
             return;
         }
 
-        $distributionCompilerDefinition = $container->getDefinition('gbslogistics.emotes.emote_bundle.distribution_compiler');
+        $releaseCompilerDefinition = $container->getDefinition('gbslogistics.emotes.emote_bundle.release_compiler');
         $taggedServices = $container->findTaggedServiceIds('gbslogistics.emote_release');
 
         foreach ($taggedServices as $id => $tags) {
             foreach ($tags as $attributes) {
-                $distributionCompilerDefinition->addMethodCall('addDistribution', [ new Reference($id), $attributes['namespace'] ]);
+                $releaseCompilerDefinition->addMethodCall('addRelease', [ new Reference($id), $attributes['namespace'] ]);
             }
         }
 
@@ -49,7 +49,7 @@ class EmoteCompilerPass implements CompilerPassInterface
             throw new \RuntimeException(sprintf('Could not find service "%s" for use as the publisher service.', $publisherService));
         }
 
-        $distributionCompilerDefinition->addMethodCall('setDisposal', [ $container->getDefinition($disposalService) ]);
-        $distributionCompilerDefinition->addMethodCall('setPublisher', [ $container->getDefinition($publisherService) ]);
+        $releaseCompilerDefinition->addMethodCall('setDisposal', [ $container->getDefinition($disposalService) ]);
+        $releaseCompilerDefinition->addMethodCall('setPublisher', [ $container->getDefinition($publisherService) ]);
     }
 }
