@@ -10,3 +10,7 @@ parameters:
 
     gbslogistics.emotes.disposal_service: gbslogistics.emotes.emote_bundle.artifact_disposal.unlink
     gbslogistics.emotes.publisher_service: gbslogistics.emotes.emote_bundle.publisher.noop
+    gbslogistics.emotes.distribution_service: gbslogistics.emotes.emote_bundle.distribution.localhost
+
+    gbslogistics.emotes.s3Bucket: ~
+    gbslogistics.emotes.aws_profile: ~

@@ -4,6 +4,7 @@ namespace GbsLogistics\Emotes\EmoteBundle;
 
 
 use Doctrine\ORM\EntityRepository;
+use GbsLogistics\Emotes\EmoteBundle\Distribution\AbstractDistribution;
 use GbsLogistics\Emotes\EmoteBundle\Entity\HistoryRepository;
 use GbsLogistics\Emotes\EmoteBundle\Model\PublishedRelease;
 use Symfony\Bundle\TwigBundle\TwigEngine;
@@ -17,16 +18,31 @@ class WebsiteAssembler
     /** @var EngineInterface */
     private $templating;
 
+    /** @var AbstractDistribution */
+    private $distribution = null;
+
     function __construct(HistoryRepository $entityRepository, EngineInterface $templating)
     {
         $this->entityRepository = $entityRepository;
         $this->templating = $templating;
     }
 
+    /**
+     * @param AbstractDistribution $distribution
+     */
+    public function setDistribution(AbstractDistribution $distribution)
+    {
+        $this->distribution = $distribution;
+    }
+
     public function assemble($releases)
     {
         if (!is_array($releases)) {
             throw new \InvalidArgumentException('Argument passed to assemble() must be an array.');
+        }
+
+        if (null === $this->distribution) {
+            throw new \RuntimeException('No distribution was provided; check the parameters file.');
         }
 
         foreach ($releases as $release) {
@@ -43,6 +59,6 @@ class WebsiteAssembler
             'historyEntries' => $this->entityRepository->findAllOrderedByDateCreated(5)
         ]);
 
-        echo $indexPage;
+        $this->distribution->publishDistribution($indexPage);
     }
 }

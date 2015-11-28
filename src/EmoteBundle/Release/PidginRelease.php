@@ -54,6 +54,11 @@ class PidginRelease extends AbstractRelease
         return 'Pidgin';
     }
 
+    public function getNamespace()
+    {
+        return 'pidgin';
+    }
+
     /**
      * Creates the distribution artifact.
      *

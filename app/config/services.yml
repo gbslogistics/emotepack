@@ -38,6 +38,11 @@ services:
             - "@gbslogistics.emotes.emote_bundle.entity.history_repository"
             - "@templating"
 
+    gbslogistics.emotes.s3Client:
+        class: GbsLogistics\Emotes\S3Client
+        arguments:
+            - "%gbslogistics.emotes.s3bucket%"
+
     # Repositories
     gbslogistics.emotes.emote_bundle.entity.emote_repository:
         class: Doctrine\ORM\EntityRepository
@@ -84,4 +89,23 @@ services:
         class: GbsLogistics\Emotes\EmoteBundle\Publisher\FilesystemPublisher
         arguments:
             - "@gbslogistics.emotes.emote_bundle.data_storage"
+        public: false
+
+    gbslogistics.emotes.emote_bundle.publisher.s3:
+        class: GbsLogistics\Emotes\EmoteBundle\Publisher\S3Publisher
+        arguments:
+            - "@gbslogistics.emotes.s3Client"
+        public: false
+
+    # Distributions
+    gbslogistics.emotes.emote_bundle.distribution.localhost:
+        class: GbsLogistics\Emotes\EmoteBundle\Distribution\LocalhostDistribution
+        arguments:
+            - "%kernel.root_dir%/../web"
+        public: false
+
+    gbslogistics.emotes.emote_bundle.distribution.s3:
+        class: GbsLogistics\Emotes\EmoteBundle\Distribution\S3Distribution
+        arguments:
+            - "@gbslogistics.emotes.s3Client"
         public: false

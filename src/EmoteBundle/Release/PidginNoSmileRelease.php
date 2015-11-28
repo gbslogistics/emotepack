@@ -16,6 +16,7 @@ class PidginNoSmileRelease extends PidginRelease
     {
         $header = parent::generateHeader();
         $header->setName($header->getName() . ', No-Smile Version');
+        /** @noinspection SpellCheckingInspection */
         $header->setIcon('smugjones.001.gif');
 
         return $header;
@@ -24,5 +25,11 @@ class PidginNoSmileRelease extends PidginRelease
     protected function getName()
     {
         return 'Pidgin, No Smile Menu';
+    }
+
+    public function getNamespace()
+    {
+        /** @noinspection SpellCheckingInspection */
+        return 'pidgin_nosmile';
     }
 }
