@@ -85,7 +85,7 @@ PLISTHEADER;
         $artifact = new ReleaseArtifact();
         $artifact->setNamespace($this->getNamespace());
         $artifact->setPath($outputFilename);
-        $artifact->setName($this->getNamespace());
+        $artifact->setName('Adium');
         return $artifact;
     }
     

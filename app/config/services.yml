@@ -116,3 +116,7 @@ services:
         arguments:
             - "@gbslogistics.emotes.s3Client"
         public: false
+
+    gbslogistics.emotes.emote_bundle.distribution.noop:
+        class: GbsLogistics\Emotes\EmoteBundle\Distribution\NoopDistribution
+        public: false
