@@ -71,6 +71,13 @@ services:
         tags:
             - { name: gbslogistics.emote_release, namespace: sagf_emote_pack_nosmile }
 
+    gbslogistics.emotes.emote_bundle.release.adium:
+        class: GbsLogistics\Emotes\EmoteBundle\Release\AdiumRelease
+        arguments:
+            - "@gbslogistics.emotes.emote_bundle.data_storage"
+        tags:
+            - { name: gbslogistics.emote_release, namespace: sagf_emote_pack_adium }
+
     # Disposals
     gbslogistics.emotes.emote_bundle.artifact_disposal.noop:
         class: GbsLogistics\Emotes\EmoteBundle\ArtifactDisposal\NoopArtifactDisposal
