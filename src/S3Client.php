@@ -41,15 +41,16 @@ class S3Client
     /**
      * @param string $key
      * @param string $filename
+     * @param array $options
      * @return \Aws\Result
      */
-    public function putObject($key, $filename)
+    public function putObject($key, $filename, $options = [])
     {
-        return $this->client->putObject([
-            'Bucket' => $this->getBucket(),
-            'Key' => $key,
-            'SourceFile' => $filename,
-            'ACL' => 'public-read'
-        ]);
+        $options['Bucket'] = $this->getBucket();
+        $options['Key'] = $key;
+        $options['SourceFile'] = $filename;
+        $options['ACL'] = 'public-read';
+
+        return $this->client->putObject($options);
     }
 }

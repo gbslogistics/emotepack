@@ -26,7 +26,7 @@ class S3Distribution extends AbstractDistribution
         $tempFile = tempnam(sys_get_temp_dir(), 'gbslogistics_emotes_index_html');
         file_put_contents($tempFile, $indexHTML);
 
-        $this->client->putObject('index.html', $tempFile);
+        $this->client->putObject('index.html', $tempFile, [ 'ContentType' => 'text/html' ]);
 
         unlink($tempFile);
     }
